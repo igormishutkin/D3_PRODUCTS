@@ -1,19 +1,18 @@
 from django.views.generic import ListView, DetailView  # импортируем класс, который говорит нам о том, что в этом представлении мы будем выводить список объектов из БД
 from .models import Product
 
-
+ 
 class ProductsList(ListView):
-    model = Product  # указываем модель, объекты которой мы будем выводить
-    template_name = 'products.html'  # указываем имя шаблона, в котором будет лежать HTML, в нем будут все инструкции о том, как именно пользователю должны вывестись наши объекты
-    context_object_name = 'products'  # это имя списска, в котором будут лежать все объекты, его надо указать, чтобв обратиться к самому списку объектов через HTML-шаблон
-
-
+    model = Product  
+    template_name = 'products.html'
+    context_object_name = 'products'
+ 
+ 
+# создаём представление, в котором будут детали конкретного отдельного товара
 class ProductDetail(DetailView):
-    model = Product  # указываем модель, объекты которой мы будем выводить
-    template_name = 'products.html'  # указываем имя шаблона, в котором будет лежать HTML, в нем будут все инструкции о том, как именно пользователю должны вывестись наши объекты
-    context_object_name = 'products'  # это имя списска, в котором будут лежать все объекты, его надо указать, чтобв обратиться к самому списку объектов через HTML-шаблон
-
-       
+    model = Product # модель всё та же, но мы хотим получать детали конкретно отдельного товара
+    template_name = 'product.html' # название шаблона будет product.html
+    context_object_name = 'product' # название объекта
 
 
 
