@@ -3,10 +3,14 @@
  
 <!-- Название у нас будет proudcts -->
 {% block title %}
-Product
+Products
 {% endblock title %}
  
 <!-- В контенте на странице мы выводим сам товар, айди которого было передано в адрес -->
-{% block content %}   
-   <h1><p align="center">{{ product.name }}, {{ product.price }} руб.</p></h1>
+{% block content %}
+{% if products %}
+   <h1>{{ product }}</h1>
+{% else %} <!-- Если товаров нет, то говорим что товаров нет ;) -->
+   <h2><p align="center">Товаров нет!</p></h2>
+{% endif %}
 {% endblock content %}
