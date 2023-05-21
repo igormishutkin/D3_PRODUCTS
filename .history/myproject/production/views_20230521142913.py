@@ -32,5 +32,3 @@ class Products(ListView):
     context_object_name = 'products'
     ordering = ['-price']
     paginate_by = 1 # поставим постраничный вывод в один элемент
-
-

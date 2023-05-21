@@ -33,4 +33,16 @@ class Products(ListView):
     ordering = ['-price']
     paginate_by = 1 # поставим постраничный вывод в один элемент
 
-
+class Products(View):
+    
+    def get(self, request):
+        products = Product.objects.order_by('-price')
+        p = Paginator(products, 1) # создаём объект класса пагинатор, передаём ему список наших товаров и их количество для одной страницы
+ 
+        products = p.get_page(request.GET.get('page', 1)) # берём номер страницы из get-запроса. Если ничего не передали, будем показывать первую страницу.
+        # теперь вместо всех объектов в списке товаров хранится только нужная нам страница с товарами
+        
+        data = {
+            'products': products,
+        }
+        return render(request, 'production/template/products.html', data)

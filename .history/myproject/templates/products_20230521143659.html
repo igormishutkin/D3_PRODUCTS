@@ -3,45 +3,26 @@
  
 <!-- Название у нас будет proudcts -->
 
-{% block title %} Product list {% endblock title %}
- 
+{% block title %}
+Products
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все товары -->
 {% block content %}
-<table>
-    <thead>
-        <th>
-            Name
-        </th>
-        <th>
-            Category
-        </th>
-        <th>
-            Price
-        </th>
-        <th>
-            Quantity
-        </th>
-    </thead>
-    {% for product in products %}
-    <tr>
-        <td>
-            {{ product.name|title }}
-        </td>
-        <td>
-            {{ product.category.name|title }}
-        </td>
-        <td>
-            {{ product.price }}
-        </td>
-        <td>
-            {{ product.quantity }}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-<!-- Проверяем что поддерживается постраничный вывод -->
-{% if is_paginated %} 
-    <!-- Если доступна предыдущая страница, то даём ссылку на неё и самую первую страницу -->
-    {% if page_obj.has_previous %}
+<h1><p align="center">Все товары</p></h1>
+<h3><p align="center">{{ time_now|date:'d M Y' }}</p></h3> <!-- Здесь мы применяем фильтр date. Он очень похож на метод strftime у даты. С его помощью мы можем выводить дату в нужном нам формате -->
+    <hr>
+   
+    {% if products %}
+        {% for p in products %}
+            <h3><p align="center">{{ p.category }} - {{ p.name }} - {{ p.price }} руб.</p></h3>
+        {% endfor %}
+    {% else %} <!-- Если товаров нет, то говорим что товаров нет ;) -->
+        <h2><p align="center">Товаров нет!</p></h2>
+    {% endif %}
+
+{% if is_paginated %}
+ {% if page_obj.has_previous %}
         <a href="?page=1">First</a>
         <a href="?page={{ page_obj.previous_page_number }}"><<<</a>
     {% endif %}
@@ -62,4 +43,6 @@
     {% endif %}
  
 {% endif %}
+
 {% endblock content %}
+</p>
