@@ -26,15 +26,16 @@ class ProductDetail(DetailView):
     template_name = 'product.html' # название шаблона будет product.html
     context_object_name = 'product' # название объекта
 
-class Products(ListView):
-    model = Product
-    template_name = 'product_list.html'
-    context_object_name = 'products'
-    ordering = ['-price']
-    paginate_by = 1 # поставим постраничный вывод в один элемент
+class Products(View):
+    
+    def get(self, request):
+        products = Product.objects.order_by('-price')
+        p = Paginator(products, 1) # создаём объект класса пагинатор, передаём ему список наших товаров и их количество для одной страницы
  
- 
-    def get_context_data(self, **kwargs): # забираем отфильтрованные объекты переопределяя метод get_context_data у наследуемого класса (привет, полиморфизм, мы скучали!!!)
-        context = super().get_context_data(**kwargs)
-        context['filter'] = ProductFilter(self.request.GET, queryset=self.get_queryset()) # вписываем наш фильтр в контекст
-        return context
+        products = p.get_page(request.GET.get('page', 1)) # берём номер страницы из get-запроса. Если ничего не передали, будем показывать первую страницу.
+        # теперь вместо всех объектов в списке товаров хранится только нужная нам страница с товарами
+        
+        data = {
+            'products': products,
+        }
+        return render(request, 'sample_app/product_list.html', data)
